@@ -40,10 +40,10 @@
 <script src="jquery-1.11.3.js" type="text/javascript"></script>
 
 <script>
-var MAX_WIDTH = 100;
-var MAX_HEIGHT = 100;
-var imageUploaded = function()
+var imageUploaded = function(h, w)
 {
+    var MAX_WIDTH = w;
+    var MAX_HEIGHT = h;
    var file = $('#uploadImage').get(0);
    if(file.files[0].type.split("/")[0].toLowerCase() != "image"){
         alert("Incorrect file type -- Please ensure you are uploading an image file.");
@@ -77,9 +77,10 @@ var imageUploaded = function()
                 var ctx = canvas.getContext("2d");
                 ctx.drawImage(img, 0, 0, w2, h2);
                 var base64St = canvas.toDataURL("image/png");
-                document.getElementById("imagePreview").src = base64St;
-                document.getElementById("imagePreview").style.height = MAX_HEIGHT + "px";
-                document.getElementById("imagePreview").style.width= MAX_WIDTH + "px";
+                  var x = "<img src='" + base64St + "' height=" + MAX_HEIGHT + " width=" + MAX_WIDTH + "> <span>" + MAX_WIDTH+ "px </span>";
+                  console.log(x);
+                document.getElementById("result").innerHTML += x;
+                return;
             }
             img.src = data;
         };  
@@ -91,6 +92,20 @@ var selectChanged = function(){
   MAX_WIDTH = MAX_HEIGHT = parseInt($("#theSelect").val()) 
   imageUploaded();
 }
+
+var theMU = "";
+var imageUploadedAux = function(){
+  theMU = "";
+  iosSizes = [57, 72, 144, 1024, 29, 48, 58, 64, 320];
+  androidSizes = [192, 144, 96, 72, 48, 36, 512];
+  for(var i = 0; i < iosSizes.length; i++){
+    imageUploaded(iosSizes[i], iosSizes[i]);
+  }
+  for(var i = 0; i < androidSizes.length; i++){
+    imageUploaded(androidSizes[i], androidSizes[i]);
+  }
+}
+
 
 </script>
 
@@ -119,7 +134,7 @@ var selectChanged = function(){
 </select>
   <h1> Icon Resizer </h1>
   <div class='dropImage'> Drag Drop Icon here </div>
-  <input class='inputFile' type="file" name="uploadImage" id="uploadImage" onchange="imageUploaded()">
+  <input class='inputFile' type="file" name="uploadImage" id="uploadImage" onchange="imageUploadedAux()">
 </body>
 <hr>
   <div id='result'> </div>
