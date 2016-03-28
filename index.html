@@ -95,8 +95,8 @@ var selectChanged = function(){
 
 var theMU = "";
 var imageUploadedAux = function(){
-  theMU = "";
-  iosSizes = [57, 72, 144, 1024, 29, 48, 58, 64, 320];
+  document.getElementById("result").innerHTML = "";
+  iosSizes = [57, 72, 144, 29, 48, 58, 64, 320, 1024];
   androidSizes = [192, 144, 96, 72, 48, 36, 512];
   for(var i = 0; i < iosSizes.length; i++){
     imageUploaded(iosSizes[i], iosSizes[i]);
